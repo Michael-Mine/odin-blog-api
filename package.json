@@ -1,0 +1,31 @@
+{
+  "name": "odin-blog-api",
+  "version": "1.0.0",
+  "description": "A blog API only backend",
+  "main": "app.js",
+  "devDependencies": {
+    "prisma": "^7.5.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Michael-Mine/odin-blog-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Michael-Mine/odin-blog-api/issues"
+  },
+  "homepage": "https://github.com/Michael-Mine/odin-blog-api#readme",
+  "dependencies": {
+    "@prisma/adapter-pg": "^7.5.0",
+    "@prisma/client": "^7.5.0",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "pg": "^8.20.0"
+  }
+}
