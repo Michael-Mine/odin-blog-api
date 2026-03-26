@@ -7,7 +7,7 @@ const postsController = require("../controllers/postsController");
 postsRouter.get("/", postsController.getAllPosts);
 
 // post /posts          (create post) (protected 2)
-// postsRouter.post("/", postsController.createPost);
+postsRouter.post("/", postsController.createPost);
 
 // (read post and comments)
 postsRouter.get("/:postId", postsController.getPost);

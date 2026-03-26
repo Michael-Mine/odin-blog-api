@@ -16,7 +16,20 @@ async function getPost(req, res) {
   res.json(posts);
 }
 
+async function createPost(req, res) {
+  const post = await prisma.post.create({
+    data: {
+      // change to default in schema
+      authorId: 1,
+      title: req.body.title,
+      content: req.body.content,
+    },
+  });
+  res.json(post);
+}
+
 module.exports = {
   getAllPosts,
   getPost,
+  createPost,
 };
