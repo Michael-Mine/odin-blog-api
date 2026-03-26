@@ -3,6 +3,23 @@ const postsRouter = Router();
 
 const postsController = require("../controllers/postsController");
 
-postsRouter.get("/", postsController.getPosts);
+// (read all posts, no comments)
+postsRouter.get("/", postsController.getAllPosts);
+
+// post /posts          (create post) (protected 2)
+// postsRouter.post("/", postsController.createPost);
+
+// (read post and comments)
+postsRouter.get("/:postId", postsController.getPost);
+
+// put  /posts/:postid  (update post) (protected 2)
+// del  /posts/:postid  (delete post) (protected 2)
+
+// post /posts/:postid/comments             (create comment 1)
+
+// put  /posts/:postid/comments/:commentid  (update comment 2)
+// del  /posts/:postid/comments/:commentid  (delete comment 2)
+
+// get /user/:userid (read all comments) (protected 1)
 
 module.exports = postsRouter;
