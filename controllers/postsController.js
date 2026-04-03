@@ -16,6 +16,7 @@ async function getPost(req, res) {
   res.json(posts);
 }
 
+//protect to author
 async function createPost(req, res) {
   const post = await prisma.post.create({
     data: {
@@ -26,8 +27,30 @@ async function createPost(req, res) {
   res.json(post);
 }
 
+//protect to author
+async function updatePost(req, res) {
+  const post = await prisma.post.update({
+    where: { id: Number(req.params.postId) },
+    data: {
+      title: req.body.title,
+      content: req.body.content,
+    },
+  });
+  res.json(post);
+}
+
+//protect to author
+async function deletePost(req, res) {
+  const post = await prisma.post.delete({
+    where: { id: Number(req.params.postId) },
+  });
+  res.json(post);
+}
+
 module.exports = {
   getAllPosts,
   getPost,
   createPost,
+  updatePost,
+  deletePost,
 };

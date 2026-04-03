@@ -13,9 +13,10 @@ postsRouter.post("/", postsController.createPost);
 postsRouter.get("/:postId", postsController.getPost);
 
 // put  /posts/:postid  (update post) (protected 2)
-
+postsRouter.put("/:postId", postsController.updatePost);
 
 // del  /posts/:postid  (delete post) (protected 2)
+postsRouter.delete("/:postId", postsController.deletePost);
 
 // post /posts/:postid/comments             (create comment 1)
 
