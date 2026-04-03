@@ -21,7 +21,16 @@ async function deleteComment(req, res) {
   res.json(comment);
 }
 
+//protect to user
+async function getUserComments(req, res) {
+  const comments = await prisma.comment.findMany({
+    where: { authorId: Number(req.params.userId) },
+  });
+  res.json(comments);
+}
+
 module.exports = {
   createComment,
   deleteComment,
+  getUserComments,
 };
