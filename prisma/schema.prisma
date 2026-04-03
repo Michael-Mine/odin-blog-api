@@ -28,7 +28,7 @@ model Post {
   title         String
   content       String
   author        User      @relation(fields: [authorId], references: [id]) 
-  authorId      Int
+  authorId      Int       @default(1)
   isPublished   Boolean   @default(false) 
   datePublished DateTime?
   comments      Comment[]

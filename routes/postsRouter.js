@@ -13,11 +13,13 @@ postsRouter.post("/", postsController.createPost);
 postsRouter.get("/:postId", postsController.getPost);
 
 // put  /posts/:postid  (update post) (protected 2)
+
+
 // del  /posts/:postid  (delete post) (protected 2)
 
 // post /posts/:postid/comments             (create comment 1)
 
-// put  /posts/:postid/comments/:commentid  (update comment 2)
+// put  /posts/:postid/comments/:commentid  (update comment 2) ?
 // del  /posts/:postid/comments/:commentid  (delete comment 2)
 
 // get /user/:userid (read all comments) (protected 1)
