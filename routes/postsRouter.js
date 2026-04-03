@@ -2,23 +2,25 @@ const { Router } = require("express");
 const postsRouter = Router();
 
 const postsController = require("../controllers/postsController");
+const commentsController = require("../controllers/commentsController");
 
 // (read all posts, no comments)
 postsRouter.get("/", postsController.getAllPosts);
 
-// post /posts          (create post) (protected 2)
+// (create post) (protected 2)
 postsRouter.post("/", postsController.createPost);
 
 // (read post and comments)
 postsRouter.get("/:postId", postsController.getPost);
 
-// put  /posts/:postid  (update post) (protected 2)
+// (update post) (protected 2)
 postsRouter.put("/:postId", postsController.updatePost);
 
-// del  /posts/:postid  (delete post) (protected 2)
+// (delete post) (protected 2)
 postsRouter.delete("/:postId", postsController.deletePost);
 
-// post /posts/:postid/comments             (create comment 1)
+// (create comment 1)
+postsRouter.post("/:postId/comments", commentsController.createComment);
 
 // put  /posts/:postid/comments/:commentid  (update comment 2) ?
 // del  /posts/:postid/comments/:commentid  (delete comment 2)
