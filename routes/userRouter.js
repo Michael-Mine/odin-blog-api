@@ -1,8 +1,8 @@
 const { Router } = require("express");
 const userRouter = Router();
 
-const commentsController = require("../controllers/commentsController");
+const userController = require("../controllers/userController");
 
-userRouter.get("/:userId", commentsController.getUserComments);
+userRouter.get("/:userCuid", userController.readUserComments);
 
 module.exports = userRouter;
