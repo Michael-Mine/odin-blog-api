@@ -23,7 +23,12 @@ postsRouter.delete("/:postId", postsController.deletePost);
 postsRouter.post("/:postId/comments", commentsController.createComment);
 
 // put  /posts/:postid/comments/:commentid  (update comment 2) ?
-// del  /posts/:postid/comments/:commentid  (delete comment 2)
+
+// (delete comment 2)
+postsRouter.delete(
+  "/:postId/comments/:commentId",
+  commentsController.deleteComment,
+);
 
 // get /user/:userid (read all comments) (protected 1)
 
