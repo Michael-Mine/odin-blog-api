@@ -28,16 +28,26 @@ async function login(req, res, next) {
   }
 }
 
-function logOutGet(req, res, next) {
-  req.logout((err) => {
+async function verifyToken(req, res, next) {
+  const bearerHeader = req.headers["authorization"];
+  if (!bearerHeader) {
+    return res.status(403).json({ message: "user not authorised" });
+  }
+  const bearer = bearerHeader.split(" ");
+  const bearerToken = bearer[1];
+  const secret = process.env.JWT_SECRET;
+
+  jwt.verify(bearerToken, secret, async (err, authData) => {
     if (err) {
-      return next(err);
+      res.status(403).json({ message: "JWT not authorised" });
+    } else {
+      req.authData = authData;
+      next();
     }
-    res.redirect("/");
   });
 }
 
 module.exports = {
   login,
-  logOutGet,
+  verifyToken,
 };
