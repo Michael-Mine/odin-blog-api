@@ -1,52 +1,31 @@
 const { prisma } = require("../lib/prisma.js");
-const passport = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
-passport.use(
-  new LocalStrategy(async (username, password, done) => {
-    try {
-      const user = await prisma.user.findUnique({
-        where: { username },
-      });
-
-      if (!user) {
-        return done(null, false, { message: "Incorrect username" });
-      }
-
-      const match = await bcrypt.compare(password, user.password);
-      if (!match) {
-        return done(null, false, { message: "Incorrect password" });
-      }
-      return done(null, user);
-    } catch (err) {
-      return done(err);
-    }
-  }),
-);
-
-passport.serializeUser((user, done) => {
-  done(null, user.id);
-});
-
-passport.deserializeUser(async (id, done) => {
+async function login(req, res, next) {
   try {
+    let { username, password } = req.body;
+
     const user = await prisma.user.findUnique({
-      where: { id },
+      where: { username },
     });
 
-    done(null, user);
-  } catch (err) {
-    done(err);
-  }
-});
+    if (!user) {
+      return res.status(401).json({ message: "Incorrect username" });
+    }
 
-function logInPost(req, res, next) {
-  const middleware = passport.authenticate("local", {
-    successRedirect: "/",
-    failureRedirect: "/",
-  });
-  middleware(req, res, next);
+    const match = await bcrypt.compare(password, user.password);
+    if (!match) {
+      return res.status(401).json({ message: "Incorrect password" });
+    }
+
+    const secret = process.env.JWT_SECRET;
+    const token = jwt.sign({ username }, secret);
+
+    return res.status(200).json({ message: "Auth Passed", token });
+  } catch (err) {
+    return res.status(401).json({ message: "Auth Failed" });
+  }
 }
 
 function logOutGet(req, res, next) {
@@ -59,6 +38,6 @@ function logOutGet(req, res, next) {
 }
 
 module.exports = {
-  logInPost,
+  login,
   logOutGet,
 };
