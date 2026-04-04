@@ -1,22 +1,10 @@
 const { prisma } = require("../lib/prisma.js");
 
-// move prisma requests to separate file?
 async function readAllPosts(req, res) {
   const posts = await prisma.post.findMany({
     where: { isPublished: true },
   });
   res.json(posts);
-}
-
-//protect to author
-async function createPost(req, res) {
-  const post = await prisma.post.create({
-    data: {
-      title: req.body.title,
-      content: req.body.content,
-    },
-  });
-  res.json(post);
 }
 
 async function readPost(req, res) {
@@ -27,7 +15,16 @@ async function readPost(req, res) {
   res.json(posts);
 }
 
-//protect to author
+async function createPost(req, res) {
+  const post = await prisma.post.create({
+    data: {
+      title: req.body.title,
+      content: req.body.content,
+    },
+  });
+  res.json({ post, authData: req.authData });
+}
+
 async function updatePost(req, res) {
   const post = await prisma.post.update({
     where: { id: Number(req.params.postId) },
@@ -36,21 +33,20 @@ async function updatePost(req, res) {
       content: req.body.content,
     },
   });
-  res.json(post);
+  res.json({ post, authData: req.authData });
 }
 
-//protect to author
 async function deletePost(req, res) {
   const post = await prisma.post.delete({
     where: { id: Number(req.params.postId) },
   });
-  res.json(post);
+  res.json({ post, authData: req.authData });
 }
 
 module.exports = {
   readAllPosts,
-  createPost,
   readPost,
+  createPost,
   updatePost,
   deletePost,
 };

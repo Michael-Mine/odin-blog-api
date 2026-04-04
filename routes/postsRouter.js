@@ -6,20 +6,34 @@ const postsController = require("../controllers/postsController");
 const commentsController = require("../controllers/commentsController");
 
 postsRouter.get("/", postsController.readAllPosts);
-
-postsRouter.post("/", postsController.createPost);
 postsRouter.get("/:postId", postsController.readPost);
-postsRouter.put("/:postId", postsController.updatePost);
-postsRouter.delete("/:postId", postsController.deletePost);
+
+postsRouter.post(
+  "/",
+  authController.verifyTokenAuthor,
+  postsController.createPost,
+);
+
+postsRouter.put(
+  "/:postId",
+  authController.verifyTokenAuthor,
+  postsController.updatePost,
+);
+postsRouter.delete(
+  "/:postId",
+  authController.verifyTokenAuthor,
+  postsController.deletePost,
+);
 
 postsRouter.post(
   "/:postId/comments",
-  authController.verifyToken,
+  authController.verifyTokenUser,
   commentsController.createComment,
 );
 
 postsRouter.delete(
   "/:postId/comments/:commentId",
+  authController.verifyTokenAuthor,
   commentsController.deleteComment,
 );
 

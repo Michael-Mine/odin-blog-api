@@ -6,7 +6,7 @@ const userController = require("../controllers/userController");
 
 userRouter.get(
   "/:userCuid",
-  authController.verifyToken,
+  authController.verifyTokenUser,
   userController.readUserComments,
 );
 

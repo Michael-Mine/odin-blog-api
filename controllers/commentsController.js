@@ -1,6 +1,5 @@
 const { prisma } = require("../lib/prisma.js");
 
-// protected to users
 async function createComment(req, res) {
   const user = await prisma.user.findFirst({
     where: { username: req.authData.username },
@@ -20,7 +19,7 @@ async function deleteComment(req, res) {
   const comment = await prisma.comment.delete({
     where: { id: Number(req.params.commentId) },
   });
-  res.json(comment);
+  res.json({ comment, authData: req.authData });
 }
 
 module.exports = {
