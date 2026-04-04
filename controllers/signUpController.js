@@ -2,13 +2,6 @@ const { body, validationResult, matchedData } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const { prisma } = require("../lib/prisma.js");
 
-function signUpGet(req, res) {
-  res.render("forms/signUp", {
-    title: "Sign Up",
-    user: req.user,
-  });
-}
-
 const lengthErr = "must be between 1 and 40 characters.";
 const emailErr = "must be an email address";
 
@@ -42,7 +35,9 @@ const validateSignUpPost = [
   body("password-check").custom((value, { req }) => {
     if (value !== req.body.password) {
       throw new Error("Passwords do not match");
-    } else return true;
+    } else {
+      return true;
+    }
   }),
 ];
 
@@ -51,10 +46,7 @@ const signUpPost = [
   async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).render("forms/signUp", {
-        title: "Sign Up",
-        errors: errors.array(),
-      });
+      return res.status(400).json(errors.array());
     }
     try {
       const { firstName, lastName, username } = matchedData(req);
@@ -77,6 +69,5 @@ const signUpPost = [
 ];
 
 module.exports = {
-  signUpGet,
   signUpPost,
 };

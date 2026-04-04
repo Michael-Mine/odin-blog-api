@@ -3,23 +3,6 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require("bcryptjs");
 
-function logInPost(req, res, next) {
-  const middleware = passport.authenticate("local", {
-    successRedirect: "/",
-    failureRedirect: "/",
-  });
-  middleware(req, res, next);
-}
-
-function logOutGet(req, res, next) {
-  req.logout((err) => {
-    if (err) {
-      return next(err);
-    }
-    res.redirect("/");
-  });
-}
-
 passport.use(
   new LocalStrategy(async (username, password, done) => {
     try {
@@ -57,6 +40,23 @@ passport.deserializeUser(async (id, done) => {
     done(err);
   }
 });
+
+function logInPost(req, res, next) {
+  const middleware = passport.authenticate("local", {
+    successRedirect: "/",
+    failureRedirect: "/",
+  });
+  middleware(req, res, next);
+}
+
+function logOutGet(req, res, next) {
+  req.logout((err) => {
+    if (err) {
+      return next(err);
+    }
+    res.redirect("/");
+  });
+}
 
 module.exports = {
   logInPost,
