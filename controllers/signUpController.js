@@ -60,7 +60,7 @@ const signUpPost = [
         },
       });
       console.log("Created user:", user);
-      res.redirect("/");
+      res.json({ message: "user created" });
     } catch (err) {
       console.error(err);
       return next(err);

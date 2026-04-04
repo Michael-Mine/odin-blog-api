@@ -20,7 +20,7 @@ async function login(req, res, next) {
     }
 
     const secret = process.env.JWT_SECRET;
-    const token = jwt.sign({ username }, secret);
+    const token = jwt.sign({ username }, secret, { expiresIn: "7 days" });
 
     return res.status(200).json({ message: "Auth Passed", token });
   } catch (err) {
