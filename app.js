@@ -2,15 +2,9 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 
-// const session = require("express-session");
-// const passport = require("passport");
-
 const postsRouter = require("./routes/postsRouter");
 const userRouter = require("./routes/userRouter");
 const indexRouter = require("./routes/indexRouter");
-
-// app.use(session({ secret: "cats", resave: false, saveUninitialized: false }));
-// app.use(passport.session());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

@@ -5,6 +5,9 @@ async function readUserComments(req, res) {
     where: { cuid: req.params.userCuid },
     include: { comments: true },
   });
+  if (!user) {
+    throw new CustomNotFoundError("User not found");
+  }
   res.json({ comments: user.comments, authData: req.authData });
 }
 
