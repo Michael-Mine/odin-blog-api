@@ -1,6 +1,6 @@
 const { prisma } = require("../lib/prisma.js");
 
-async function readAllPosts(req, res) {
+async function readPublishedPosts(req, res) {
   const posts = await prisma.post.findMany({
     where: { isPublished: true },
   });
@@ -15,6 +15,11 @@ async function readPost(req, res) {
   res.json(posts);
 }
 
+async function readAllPosts(req, res) {
+  const posts = await prisma.post.findMany();
+  res.json(posts);
+}
+
 async function createPost(req, res) {
   const post = await prisma.post.create({
     data: {
@@ -22,7 +27,7 @@ async function createPost(req, res) {
       content: req.body.content,
     },
   });
-  res.json({ post, authData: req.authData });
+  res.json({ message: "post created", post, authData: req.authData });
 }
 
 async function updatePost(req, res) {
@@ -33,19 +38,20 @@ async function updatePost(req, res) {
       content: req.body.content,
     },
   });
-  res.json({ post, authData: req.authData });
+  res.json({ message: "post updated", post, authData: req.authData });
 }
 
 async function deletePost(req, res) {
   const post = await prisma.post.delete({
     where: { id: Number(req.params.postId) },
   });
-  res.json({ post, authData: req.authData });
+  res.json({ message: "post deleted", post, authData: req.authData });
 }
 
 module.exports = {
-  readAllPosts,
+  readPublishedPosts,
   readPost,
+  readAllPosts,
   createPost,
   updatePost,
   deletePost,

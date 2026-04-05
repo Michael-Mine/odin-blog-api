@@ -5,8 +5,13 @@ const authController = require("../controllers/authController");
 const postsController = require("../controllers/postsController");
 const commentsController = require("../controllers/commentsController");
 
-postsRouter.get("/", postsController.readAllPosts);
+postsRouter.get("/", postsController.readPublishedPosts);
 postsRouter.get("/:postId", postsController.readPost);
+postsRouter.get(
+  "/all",
+  authController.verifyTokenAuthor,
+  postsController.readAllPosts,
+);
 
 postsRouter.post(
   "/",

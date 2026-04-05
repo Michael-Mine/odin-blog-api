@@ -12,14 +12,14 @@ async function createComment(req, res) {
       postId: Number(req.params.postId),
     },
   });
-  res.json({ comments, authData: req.authData });
+  res.json({ message: "comment created", comments, authData: req.authData });
 }
 
 async function deleteComment(req, res) {
   const comment = await prisma.comment.delete({
     where: { id: Number(req.params.commentId) },
   });
-  res.json({ comment, authData: req.authData });
+  res.json({ message: "comment deleted", comment, authData: req.authData });
 }
 
 module.exports = {

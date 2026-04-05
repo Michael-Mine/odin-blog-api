@@ -88,7 +88,7 @@ async function verifyTokenAuthor(req, res, next) {
 
   jwt.verify(bearerToken, secret, async (err, authData) => {
     if (err) {
-      res.status(401).json({ message: "JWT not authorised" });
+      res.status(401).json({ message: "user JWT not authorised" });
     } else {
       req.authData = authData;
       next();
