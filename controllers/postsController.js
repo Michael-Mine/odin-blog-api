@@ -37,14 +37,16 @@ const validatePost = [
 const createPost = [
   validatePost,
   async (req, res, next) => {
+    const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json(errors.array());
     }
     try {
+      const { title, content } = matchedData(req);
       const post = await prisma.post.create({
         data: {
-          title: req.body.title,
-          content: req.body.content,
+          title,
+          content,
         },
       });
       res.json({ message: "post created", post, authData: req.authData });
@@ -58,15 +60,17 @@ const createPost = [
 const updatePost = [
   validatePost,
   async (req, res, next) => {
+    const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json(errors.array());
     }
     try {
+      const { title, content } = matchedData(req);
       const post = await prisma.post.update({
         where: { id: Number(req.params.postId) },
         data: {
-          title: req.body.title,
-          content: req.body.content,
+          title,
+          content,
         },
       });
       if (!post) {
