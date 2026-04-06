@@ -1,4 +1,5 @@
 const { prisma } = require("../lib/prisma.js");
+const CustomNotFoundError = require("../errors/CustomNotFoundError");
 
 async function readUserComments(req, res) {
   const user = await prisma.user.findFirst({

@@ -1,5 +1,6 @@
 const { body, validationResult, matchedData } = require("express-validator");
 const { prisma } = require("../lib/prisma.js");
+const CustomNotFoundError = require("../errors/CustomNotFoundError");
 
 const lengthErr = "must be between 1 and 400 characters.";
 const validateCommentContent = [
