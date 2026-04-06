@@ -1,11 +1,13 @@
 require("dotenv").config();
 const express = require("express");
+const cors = require("cors");
 const app = express();
 
 const postsRouter = require("./routes/postsRouter");
 const userRouter = require("./routes/userRouter");
 const indexRouter = require("./routes/indexRouter");
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -26,6 +28,4 @@ app.listen(PORT, (error) => {
   console.log(`Express app listening on port ${PORT}!`);
 });
 
-// install cors
 // add search query routes
-// add custom error & others
