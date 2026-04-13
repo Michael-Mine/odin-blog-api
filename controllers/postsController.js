@@ -5,6 +5,13 @@ const CustomNotFoundError = require("../errors/CustomNotFoundError");
 async function readPublishedPosts(req, res) {
   const posts = await prisma.post.findMany({
     where: { isPublished: true },
+    select: {
+      id: true,
+      title: true,
+      content: true,
+      picUrl: true,
+      datePublished: true,
+    },
   });
   res.json(posts);
 }
