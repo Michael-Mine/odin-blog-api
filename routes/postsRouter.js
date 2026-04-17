@@ -30,6 +30,8 @@ postsRouter.delete(
   postsController.deletePost,
 );
 
+postsRouter.get("/:postId/comments", commentsController.readComments);
+
 postsRouter.post(
   "/:postId/comments",
   authController.verifyTokenUser,

@@ -2,6 +2,21 @@ const { body, validationResult, matchedData } = require("express-validator");
 const { prisma } = require("../lib/prisma.js");
 const CustomNotFoundError = require("../errors/CustomNotFoundError");
 
+async function readComments(req, res) {
+  const comments = await prisma.comment.findMany({
+    where: { postId: Number(req.params.postId) },
+    include: {
+      author: {
+        select: {
+          firstName: true,
+          lastName: true,
+        },
+      },
+    },
+  });
+  res.json(comments);
+}
+
 const lengthErr = "must be between 1 and 400 characters.";
 const validateCommentContent = [
   body("content")
@@ -53,6 +68,7 @@ async function deleteComment(req, res) {
 }
 
 module.exports = {
+  readComments,
   createComment,
   deleteComment,
 };
