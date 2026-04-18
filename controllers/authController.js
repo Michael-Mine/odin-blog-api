@@ -31,7 +31,9 @@ async function loginUser(req, res, next) {
 async function verifyTokenUser(req, res, next) {
   const bearerHeader = req.headers["authorization"];
   if (!bearerHeader) {
-    return res.status(401).json({ message: "user not authorised" });
+    return res
+      .status(400)
+      .json({ message: "Authorisation Failed (no JWT) - Login required" });
   }
   const bearer = bearerHeader.split(" ");
   const bearerToken = bearer[1];
@@ -39,7 +41,11 @@ async function verifyTokenUser(req, res, next) {
 
   jwt.verify(bearerToken, secret, async (err, authData) => {
     if (err) {
-      res.status(401).json({ message: "JWT not authorised" });
+      res
+        .status(401)
+        .json({
+          message: "Authorisation Failed (JWT not matched) - Login again",
+        });
     } else {
       req.authData = authData;
       next();
@@ -80,7 +86,9 @@ async function loginAuthor(req, res, next) {
 async function verifyTokenAuthor(req, res, next) {
   const bearerHeader = req.headers["authorization"];
   if (!bearerHeader) {
-    return res.status(401).json({ message: "user not authorised" });
+    return res
+      .status(401)
+      .json({ message: "Authorisation Failed (no JWT) - Login required" });
   }
   const bearer = bearerHeader.split(" ");
   const bearerToken = bearer[1];
@@ -88,7 +96,11 @@ async function verifyTokenAuthor(req, res, next) {
 
   jwt.verify(bearerToken, secret, async (err, authData) => {
     if (err) {
-      res.status(401).json({ message: "user JWT not authorised" });
+      res
+        .status(401)
+        .json({
+          message: "Authorisation Failed (JWT not matched) - Login again",
+        });
     } else {
       req.authData = authData;
       next();
