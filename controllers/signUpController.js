@@ -31,8 +31,8 @@ const validateSignUpPost = [
   body("password")
     .trim()
     .isLength({ min: 1, max: 40 })
-    .withMessage(`Name ${lengthErr}`),
-  body("password-check").custom((value, { req }) => {
+    .withMessage(`password ${lengthErr}`),
+  body("passwordCheck").custom((value, { req }) => {
     if (value !== req.body.password) {
       throw new Error("Passwords do not match");
     } else {
