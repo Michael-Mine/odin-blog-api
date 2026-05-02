@@ -16,16 +16,16 @@ async function readPublishedPosts(req, res) {
   res.json(posts);
 }
 
-async function readPost(req, res) {
-  const post = await prisma.post.findUnique({
-    where: { id: Number(req.params.postId) },
-    include: { comments: true },
-  });
-  if (!post) {
-    throw new CustomNotFoundError("Post not found");
-  }
-  res.json(post);
-}
+// async function readPost(req, res) {
+//   const post = await prisma.post.findUnique({
+//     where: { id: Number(req.params.postId) },
+//     include: { comments: true },
+//   });
+//   if (!post) {
+//     throw new CustomNotFoundError("Post not found");
+//   }
+//   res.json(post);
+// }
 
 async function readAllPosts(req, res) {
   const posts = await prisma.post.findMany();
@@ -39,6 +39,9 @@ const validatePost = [
     .isLength({ min: 10, max: 50 })
     .withMessage(`Title ${lengthErr}`),
   body("content").trim(),
+  body("picUrl").trim(),
+  body("isPublished").trim(),
+  body("datePublished").trim(),
 ];
 
 const createPost = [
@@ -49,11 +52,12 @@ const createPost = [
       return res.status(400).json(errors.array());
     }
     try {
-      const { title, content } = matchedData(req);
+      const { title, content, picUrl } = matchedData(req);
       const post = await prisma.post.create({
         data: {
           title,
           content,
+          picUrl,
         },
       });
       res.json({ message: "post created", post, authData: req.authData });
@@ -64,6 +68,11 @@ const createPost = [
   },
 ];
 
+function formatDate(datePublished) {
+  const timestamp = Date.parse(datePublished);
+  return new Date(timestamp);
+}
+
 const updatePost = [
   validatePost,
   async (req, res, next) => {
@@ -72,12 +81,20 @@ const updatePost = [
       return res.status(400).json(errors.array());
     }
     try {
-      const { title, content } = matchedData(req);
+      const { title, content, picUrl, isPublished, datePublished } =
+        matchedData(req);
+      let date = null;
+      if (datePublished !== "null") {
+        date = formatDate(datePublished);
+      }
       const post = await prisma.post.update({
         where: { id: Number(req.params.postId) },
         data: {
           title,
           content,
+          picUrl,
+          isPublished: JSON.parse(isPublished),
+          datePublished: date,
         },
       });
       if (!post) {
@@ -103,7 +120,7 @@ async function deletePost(req, res) {
 
 module.exports = {
   readPublishedPosts,
-  readPost,
+  // readPost,
   readAllPosts,
   createPost,
   updatePost,
