@@ -17,7 +17,7 @@ async function readPublishedPosts(req, res) {
 }
 
 async function readPost(req, res) {
-  const post = await prisma.post.findUnique({
+  const post = await prisma.post.findFirst({
     where: { id: Number(req.params.postId) },
     include: { comments: true },
   });
