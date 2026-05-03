@@ -16,16 +16,16 @@ async function readPublishedPosts(req, res) {
   res.json(posts);
 }
 
-// async function readPost(req, res) {
-//   const post = await prisma.post.findUnique({
-//     where: { id: Number(req.params.postId) },
-//     include: { comments: true },
-//   });
-//   if (!post) {
-//     throw new CustomNotFoundError("Post not found");
-//   }
-//   res.json(post);
-// }
+async function readPost(req, res) {
+  const post = await prisma.post.findUnique({
+    where: { id: Number(req.params.postId) },
+    include: { comments: true },
+  });
+  if (!post) {
+    throw new CustomNotFoundError("Post not found");
+  }
+  res.json(post);
+}
 
 async function readAllPosts(req, res) {
   const posts = await prisma.post.findMany();
@@ -84,7 +84,7 @@ const updatePost = [
       const { title, content, picUrl, isPublished, datePublished } =
         matchedData(req);
       let date = null;
-      if (datePublished !== "null") {
+      if (datePublished !== "") {
         date = formatDate(datePublished);
       }
       const post = await prisma.post.update({
@@ -120,7 +120,7 @@ async function deletePost(req, res) {
 
 module.exports = {
   readPublishedPosts,
-  // readPost,
+  readPost,
   readAllPosts,
   createPost,
   updatePost,
