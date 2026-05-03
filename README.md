@@ -128,3 +128,27 @@ npx prisma studio
 ```bash
 node --watch app.js
 ```
+
+## Deployment on Railway
+
+1. Link GitHub repo
+
+2. Add a new Postgres database
+
+3. Add the new Postgres database as `DATABASE_URL`variable in project
+
+4. Add JWT secrets as `JWT_SECRET_USER` and `JWT_SECRET_AUTHOR` variables in project
+
+5. Add the following settings in project:
+
+Custom Build Command:
+
+```bash
+npx prisma generate
+```
+
+Pre-deploy Command:
+
+```bash
+npx prisma migrate deploy
+```
