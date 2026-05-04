@@ -9,17 +9,17 @@ const validateSignUpPost = [
   body("firstName")
     .trim()
     .isLength({ min: 1, max: 40 })
-    .withMessage(`Name ${lengthErr}`),
+    .withMessage(`First Name ${lengthErr}`),
   body("lastName")
     .trim()
     .isLength({ min: 1, max: 40 })
-    .withMessage(`Name ${lengthErr}`),
+    .withMessage(`Last Name ${lengthErr}`),
   body("username")
     .trim()
     .isEmail()
     .withMessage(`Email ${emailErr}`)
     .isLength({ min: 1, max: 40 })
-    .withMessage(`Name ${lengthErr}`)
+    .withMessage(`Email ${lengthErr}`)
     .custom(async (value) => {
       const user = await prisma.user.findUnique({
         where: { username: value },
