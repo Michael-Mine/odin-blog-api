@@ -152,3 +152,11 @@ Pre-deploy Command:
 ```bash
 npx prisma migrate deploy
 ```
+
+6. Manually add a new User with `isAuthor: true` in the Railway Posgres database.
+
+As the password stored is hashed based on your author secret, you will need to create the user in development to get the hashed password value.
+
+This can be done via curl or postman, as the standard signup is for readers only, as based on a different user secret.
+
+Alternatively, you can temporary change the user secret to the same as the author secret to get the hashed password value.
