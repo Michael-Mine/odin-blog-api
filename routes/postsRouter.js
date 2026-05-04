@@ -6,7 +6,7 @@ const postsController = require("../controllers/postsController");
 const commentsController = require("../controllers/commentsController");
 
 postsRouter.get("/", postsController.readPublishedPosts);
-postsRouter.get("/:postId", postsController.readPost);
+
 postsRouter.get(
   "/all",
   authController.verifyTokenAuthor,

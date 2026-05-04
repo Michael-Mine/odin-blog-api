@@ -16,17 +16,6 @@ async function readPublishedPosts(req, res) {
   res.json(posts);
 }
 
-async function readPost(req, res) {
-  const post = await prisma.post.findFirst({
-    where: { id: Number(req.params.postId) },
-    include: { comments: true },
-  });
-  if (!post) {
-    throw new CustomNotFoundError("Post not found");
-  }
-  res.json(post);
-}
-
 async function readAllPosts(req, res) {
   const posts = await prisma.post.findMany();
   res.json(posts);
@@ -120,7 +109,6 @@ async function deletePost(req, res) {
 
 module.exports = {
   readPublishedPosts,
-  readPost,
   readAllPosts,
   createPost,
   updatePost,
